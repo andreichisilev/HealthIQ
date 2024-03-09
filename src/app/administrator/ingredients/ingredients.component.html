@@ -1,1 +1,26 @@
-<p>ingredients works!</p>
+<div class="menu">
+  <app-amenu></app-amenu>
+</div>
+<div class="ingredientsWrapper">
+  <nz-card
+    *ngFor="let ingredient of ingredients"
+    style="width: 300px"
+    [nzActions]="[actionEdit, actionDelete]"
+  >
+    <nz-card-meta
+      nzTitle="{{ ingredient.ingredient_Name }}"
+      nzDescription="Categorie: {{ingredient.idIngredientType}}
+      Calorii la 100g: {{ingredient.caloriesNOPer100g}}
+      Proteine la 100g: {{ingredient.proteinNoPer100g}}
+      Carbohidrati la 100g: {{ingredient.carboNoPer100g}}
+      Grasimi la 100g: {{ingredient.fatsNoPer100g}}"
+      style="white-space: pre-line"
+    ></nz-card-meta>
+  </nz-card>
+  <ng-template #actionEdit>
+    <span nz-icon nzType="edit"></span>
+  </ng-template>
+  <ng-template #actionDelete>
+    <span nz-icon nzType="delete"></span>
+  </ng-template>
+</div>

@@ -1,1 +1,20 @@
-<p>categories works!</p>
+<div class="menu">
+  <app-amenu></app-amenu>
+</div>
+
+<div class="ingredientTypesWrapper">
+  <nz-card
+    style="width: 300px"
+    [nzActions]="[actionEdit, actionDelete]"
+    *ngFor="let ingredientType of ingredientTypes"
+  >
+    <nz-card-meta nzTitle="{{ ingredientType.type }}"></nz-card-meta>
+  </nz-card>
+
+  <ng-template #actionEdit>
+    <span nz-icon nzType="edit"></span>
+  </ng-template>
+  <ng-template #actionDelete>
+    <span nz-icon nzType="delete"></span
+  ></ng-template>
+</div>

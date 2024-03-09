@@ -1,0 +1,48 @@
+<div class="wrapper">
+  <ul
+    class="menu"
+    nz-menu
+    nzMode="inline"
+    nzTheme="dark"
+    [nzInlineCollapsed]="isCollapsed"
+  >
+    <li
+      nz-menu-item
+      nz-tooltip
+      nzTooltipPlacement="right"
+      [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''"
+      [nzSelected]="selected0"
+      (click)="goToCategories()"
+      id="item0"
+    >
+      <span>Ingredient types</span>
+    </li>
+    <li
+      nz-menu-item
+      nzTitle="Navigation Two"
+      nzIcon="appstore"
+      [nzSelected]="selected1"
+      (click)="goToDiseases()"
+    >
+      <span>Diseases</span>
+    </li>
+    <li
+      nz-menu-item
+      nzTitle="Navigation Three"
+      nzIcon="appstore"
+      [nzSelected]="selected2"
+      (click)="goToIngredients()"
+    >
+      <span>Ingredients</span>
+    </li>
+    <li
+      nz-menu-item
+      nzTitle="Navigation Three"
+      nzIcon="appstore"
+      [nzSelected]="selected3"
+      (click)="goToRecipes()"
+    >
+      <span>Recipes</span>
+    </li>
+  </ul>
+</div>

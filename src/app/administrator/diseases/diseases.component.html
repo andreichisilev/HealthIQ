@@ -1,1 +1,19 @@
-<p>diseases works!</p>
+<div class="menu">
+  <app-amenu></app-amenu>
+</div>
+
+<div class="diseasesWrapper">
+  <nz-card
+    *ngFor="let disease of diseases"
+    style="width: 300px"
+    [nzActions]="[actionEdit, actionDelete]"
+  >
+    <nz-card-meta nzTitle="{{disease.diseaseName}}"></nz-card-meta>
+  </nz-card>
+  <ng-template #actionEdit>
+    <span nz-icon nzType="edit"></span>
+  </ng-template>
+  <ng-template #actionDelete>
+    <span nz-icon nzType="delete"></span>
+  </ng-template>
+</div>
