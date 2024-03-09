@@ -13,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { HttpClient } from '@angular/common/http';
+import { MainService } from '../../../_core/services/main.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-finish-register',
@@ -31,13 +33,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FinishRegisterComponent {
   index = 0;
-  statuses = ['wait', 'wait', 'wait', 'wait', 'wait', 'wait'];
-  disabled = [false, true, true, true, true, true];
-  steps = [false, true, true, true, true, true];
+  statuses = ['wait', 'wait', 'wait', 'wait', 'wait'];
+  disabled = [false, true, true, true, true];
+  steps = [false, true, true, true, true];
   date: Date;
   validateForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private mainService: MainService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.formBuilder.group({
@@ -56,7 +63,6 @@ export class FinishRegisterComponent {
       trainingFrequency: [null, [Validators.required]],
       userTarget: [null, [Validators.required]],
       gender: [null, [Validators.required]],
-      profilePictureUrl: [null],
     });
   }
 
@@ -95,26 +101,33 @@ export class FinishRegisterComponent {
   get gender(): FormControl {
     return this.validateForm.get('gender') as FormControl;
   }
-  get profilePictureUrl(): FormControl {
-    return this.validateForm.get('profilePictureUrl') as FormControl;
+
+  dateToString(date: Date): string {
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
   }
 
   submitForm(): void {
     var payload = {
-      userId: parseInt(localStorage.getItem('userId')),
+      userId: parseInt(localStorage.getItem('UserId')),
       lastName: this.lastName.value,
       firstName: this.firstName.value,
-      birthDate: this.birthDate.value,
+      birthDate: this.dateToString(this.birthDate.value),
       weight: parseInt(this.weight.value),
       height: parseInt(this.height.value),
-      gender: parseInt(this.gender.value),
+      gender: this.gender.value,
       fitLevel: this.fitLevel.value,
       trainingFrequency: parseInt(this.trainingFrequency.value),
       userTarget: this.userTarget.value,
-      profilePictureUrl: this.profilePictureUrl.value.substring(
-        this.profilePictureUrl.value.lastIndexOf('\\') + 1
-      ),
     };
+    this.mainService.updateUserInfo(payload).subscribe({
+      next: (response) => {
+        this.router.navigate(['/main/home']);
+        console.log('success');
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
     console.log(payload);
   }
 
@@ -143,16 +156,12 @@ export class FinishRegisterComponent {
     if (this.index == 4) {
       return this.gender.valid;
     }
-    if (this.index == 5) {
-      return this.profilePictureUrl.valid;
-    }
 
     return false;
   }
 
   next(): void {
-    if (this.index === 5) {
-      //todo: save data
+    if (this.index === 4) {
       this.submitForm();
       return;
     }

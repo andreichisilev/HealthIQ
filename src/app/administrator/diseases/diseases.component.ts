@@ -8,6 +8,7 @@ import { Disease } from '../../../_core/models/Disease';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { AdministratorService } from '../../../_core/services/administrator.service';
 
 @Component({
   selector: 'app-diseases',
@@ -26,22 +27,30 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   styleUrl: './diseases.component.scss',
 })
 export class DiseasesComponent {
-  constructor(private modal: NzModalService) {}
+  constructor(
+    private modal: NzModalService,
+    private adminService: AdministratorService
+  ) {}
 
   diseases: Disease[] = [];
 
   inputAddValue: string = '';
+  inputAddValueStored: string = '';
   inputEditValue: string = '';
+  inputEditValueStored: string = '';
+  inputIdValueStored: number;
   inputAddDisabled: boolean = true;
   inputEditDisabled: boolean = true;
 
   ngOnInit() {
-    for (let i = 0; i < 5; i++) {
-      this.diseases.push({
-        idDisease: i,
-        diseaseName: 'Disease' + i,
-      });
-    }
+    this.adminService.getDiseases().subscribe({
+      next: (response) => {
+        this.diseases = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   isAddVisible = false;
@@ -51,17 +60,55 @@ export class DiseasesComponent {
     this.isAddVisible = true;
   }
 
-  showEditModal(diseaseName) {
+  showEditModal(disease) {
     this.isEditVisible = true;
-    this.inputEditValue = diseaseName;
+    this.inputEditValue = disease.diseaseName;
+    this.inputIdValueStored = disease.idDisease;
   }
 
   handleAddOk(): void {
     this.isAddVisible = false;
+
+    const payload = {
+      diseaseName: this.inputAddValueStored,
+    };
+
+    this.adminService.addDisease(payload).subscribe({
+      next: (response) => {
+        var newDisease: Disease = {
+          idDisease: 0,
+          diseaseName: payload.diseaseName,
+        };
+
+        this.diseases.push(newDisease);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   handleEditOk(): void {
     this.isEditVisible = false;
+
+    const payload = {
+      idDisease: this.inputIdValueStored,
+      diseaseName: this.inputEditValueStored,
+    };
+
+    this.adminService.editDisease(payload).subscribe({
+      next: (response) => {
+        for (let i = 0; i < this.diseases.length; i++) {
+          if (this.diseases[i].idDisease == payload.idDisease) {
+            this.diseases[i].diseaseName = payload.diseaseName;
+            break;
+          }
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   handleAddCancel(): void {
@@ -72,12 +119,14 @@ export class DiseasesComponent {
     this.isEditVisible = false;
   }
 
-  onChangeAddValue() {
+  onChangeAddValue(event) {
     this.inputAddDisabled = false;
+    this.inputAddValueStored = event.target.value;
   }
 
   onChangeEditValue() {
     this.inputEditDisabled = false;
+    this.inputEditValueStored = this.inputEditValue;
   }
 
   showDeleteConfirm(): void {

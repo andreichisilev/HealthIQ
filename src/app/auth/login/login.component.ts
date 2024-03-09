@@ -111,7 +111,7 @@ export class LoginComponent {
     this.authService.login(payload).subscribe({
       next: (response) => {
         localStorage.setItem('UserId', response);
-        // this.router.navigate(['/dashboard']);
+        this.router.navigate(['/main/home']);
       },
       error: (error) => {
         console.log(error);

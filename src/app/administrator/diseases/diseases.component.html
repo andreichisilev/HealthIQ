@@ -14,11 +14,7 @@
       <nz-card-meta nzTitle="{{ disease.diseaseName }}"></nz-card-meta>
     </nz-card>
     <ng-template #actionEdit>
-      <span
-        nz-icon
-        nzType="edit"
-        (click)="showEditModal(disease.diseaseName)"
-      ></span>
+      <span nz-icon nzType="edit" (click)="showEditModal(disease)"></span>
     </ng-template>
     <ng-template #actionDelete>
       <span nz-icon nzType="delete" (click)="showDeleteConfirm()"></span>
@@ -39,7 +35,7 @@
     <input
       nz-input
       [value]="inputAddValue"
-      (input)="onChangeAddValue()"
+      (input)="onChangeAddValue($event)"
       placeholder="Disease name"
     />
   </ng-template>

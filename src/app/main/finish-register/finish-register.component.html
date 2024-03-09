@@ -30,11 +30,6 @@
     [nzStatus]="statuses[4]"
     [nzDisabled]="disabled[4]"
   ></nz-step>
-  <nz-step
-    nzTitle="Step 6"
-    [nzStatus]="statuses[5]"
-    [nzDisabled]="disabled[5]"
-  ></nz-step>
 </nz-steps>
 
 <div>
@@ -76,7 +71,7 @@
 
     <nz-form-item [hidden]="steps[2]">
       <nz-form-label nzRequired nzFor="weight" nzSpan="3">
-        Weight:
+        Weight (kg):
       </nz-form-label>
       <nz-form-control
         nzErrorTip="Please input your weight in kilograms!"
@@ -87,7 +82,7 @@
     </nz-form-item>
     <nz-form-item [hidden]="steps[2]">
       <nz-form-label nzRequired nzFor="height" nzSpan="3">
-        Height:
+        Height (cm):
       </nz-form-label>
       <nz-form-control
         nzErrorTip="Please input your height in centimeters!"
@@ -102,7 +97,6 @@
         Fit Level:
       </nz-form-label>
       <nz-form-control nzErrorTip="Please choose you fit level!" nzSpan="8">
-        <!-- <input formControlName="fitLevel" nz-input id="fitLevel" /> -->
         <nz-select formControlName="fitLevel" id="fitLevel">
           <nz-option nzLabel="Beginner" nzValue="beginner"></nz-option>
           <nz-option nzLabel="Intermediate" nzValue="intermediate"></nz-option>
@@ -146,29 +140,10 @@
       </nz-form-label>
       <nz-form-control nzErrorTip="Please select your gender!" nzSpan="8">
         <nz-select formControlName="gender" id="gender">
-          <nz-option nzLabel="Male" nzValue="0"></nz-option>
-          <nz-option nzLabel="Female" nzValue="1"></nz-option>
+          <nz-option nzLabel="Male" nzValue="male"></nz-option>
+          <nz-option nzLabel="Female" nzValue="female"></nz-option>
         </nz-select>
       </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item [hidden]="steps[5]">
-      <nz-form-label nzFor="profilePictureUrl">
-        <!-- Profile Picture: -->
-        <nz-form-control
-          nzErrorTip="Please choose your profile picture"
-          nzSpan="8"
-        >
-          <input
-            class="fileInput"
-            type="file"
-            nz-input
-            id="profilePictureUrl"
-            formControlName="profilePictureUrl"
-            (change)="onFileSelect($event)"
-          />
-        </nz-form-control>
-      </nz-form-label>
     </nz-form-item>
   </form>
 </div>

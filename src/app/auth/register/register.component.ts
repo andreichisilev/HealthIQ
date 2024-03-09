@@ -36,7 +36,11 @@ import { AuthService } from '../../../_core/services/auth.service';
 export class RegisterComponent {
   validateForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.formBuilder.group({
@@ -122,14 +126,13 @@ export class RegisterComponent {
     this.authService.register(payload).subscribe({
       next: (response) => {
         localStorage.setItem('UserId', response);
-        // this.router.navigate(['/dashboard']);
-            },
+        this.router.navigate(['/main/finish/register']);
+      },
       error: (error) => {
         console.log(error);
-        alert('An account with this email already exists. Please login.')
+        alert('An account with this email already exists. Please login.');
       },
-    
-    })
+    });
   }
 
   goToLogin(): void {

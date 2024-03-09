@@ -2,6 +2,12 @@
   <app-amenu></app-amenu>
 </div>
 
+<div class="addRow">
+  <button nz-button nzType="primary" (click)="showAddModal()">
+    Add ingredient
+  </button>
+</div>
+
 <div class="recipesContainer">
   <nz-card
     style="width: 300px"
@@ -41,42 +47,31 @@
       nz-input
       [value]="inputAddValue"
       (input)="onChangeAddValue()"
-      placeholder="Ingredient name"
+      placeholder="Recipe name"
     />
     <nz-select
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select an ingredient type"
-      style="margin-top: 12px; width: 100%"
+      nzMode="multiple"
+      nzPlaceHolder="Ingredients"
+      style="width: 100%; margin-top: 12px"
+      [(ngModel)]="listOfSelectedValue"
     >
-      <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-      <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-      <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+      <nz-option
+        *ngFor="let option of listOfOption"
+        [nzLabel]="option"
+        [nzValue]="option"
+        [nzHide]="!isNotSelected(option)"
+      ></nz-option>
     </nz-select>
+    <input
+      nz-input
+      [value]="inputAddValue"
+      (input)="onChangeAddValue()"
+      placeholder="Recipe instructions"
+      style="margin-top: 12px"
+    />
     <nz-input-number
       style="width: 100%; margin-top: 12px"
-      nzPlaceHolder="Calories per 100g"
-      [nzMin]="1"
-      [nzMax]="10"
-      [nzStep]="1"
-    ></nz-input-number>
-    <nz-input-number
-      style="width: 100%; margin-top: 12px"
-      nzPlaceHolder="Proteins per 100g"
-      [nzMin]="1"
-      [nzMax]="10"
-      [nzStep]="1"
-    ></nz-input-number>
-    <nz-input-number
-      style="width: 100%; margin-top: 12px"
-      nzPlaceHolder="Carbo per 100g"
-      [nzMin]="1"
-      [nzMax]="10"
-      [nzStep]="1"
-    ></nz-input-number>
-    <nz-input-number
-      style="width: 100%; margin-top: 12px"
-      nzPlaceHolder="Fats per 100g"
+      nzPlaceHolder="Cooking time"
       [nzMin]="1"
       [nzMax]="10"
       [nzStep]="1"

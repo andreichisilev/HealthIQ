@@ -8,6 +8,9 @@ import { Recipe } from '../../../_core/models/Recipe';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-recipes',
@@ -19,14 +22,24 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzIconModule,
     CommonModule,
     NzModalModule,
+    NzInputModule,
     NzInputNumberModule,
     NzSelectModule,
+    NzButtonModule,
+    FormsModule,
   ],
   templateUrl: './recipes.component.html',
   styleUrl: './recipes.component.scss',
 })
 export class RecipesComponent {
   recipes: Recipe[] = [];
+
+  listOfOption = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
+  listOfSelectedValue: string[] = [];
+
+  isNotSelected(value: string): boolean {
+    return this.listOfSelectedValue.indexOf(value) === -1;
+  }
 
   inputAddValue: string = '';
 

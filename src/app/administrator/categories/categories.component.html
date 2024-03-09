@@ -11,18 +11,20 @@
 <div class="ingredientTypesWrapper">
   <div *ngFor="let ingredientType of ingredientTypes">
     <nz-card style="width: 300px" [nzActions]="[actionEdit, actionDelete]">
-      <nz-card-meta nzTitle="{{ ingredientType.type }}"></nz-card-meta>
+      <nz-card-meta
+        nzTitle="{{ ingredientType.ingredientType }}"
+      ></nz-card-meta>
     </nz-card>
 
     <ng-template #actionEdit>
-      <span
-        (click)="showModal(ingredientType.type)"
-        nz-icon
-        nzType="edit"
-      ></span>
+      <span (click)="showModal(ingredientType)" nz-icon nzType="edit"></span>
     </ng-template>
     <ng-template #actionDelete>
-      <span nz-icon nzType="delete" (click)="showDeleteConfirm()"></span
+      <span
+        nz-icon
+        nzType="delete"
+        (click)="showDeleteConfirm(ingredientType.idIngredientType)"
+      ></span
     ></ng-template>
   </div>
 </div>
@@ -40,7 +42,7 @@
     <input
       nz-input
       [value]="inputAddValue"
-      (input)="onChangeInput($event)"
+      (input)="onChangeAddInput($event)"
       placeholder="Ingredient type name"
     />
   </ng-template>
@@ -53,7 +55,7 @@
       nz-button
       nzType="primary"
       (click)="handleAddOk()"
-      [disabled]="inputDisabled"
+      [disabled]="inputAddDisabled"
     >
       Add
     </button>

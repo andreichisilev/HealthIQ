@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,33 +6,60 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AdministratorService {
-  private readonly serverUrl = '';
+  private readonly serverUrl = 'https://localhost:7150/api';
   constructor(private httpClient: HttpClient) {}
 
   addIngredientType(body): Observable<any> {
-    return this.httpClient.post(this.serverUrl, body);
+    return this.httpClient.post(
+      this.serverUrl + '/IngredientType/AddIngredientType',
+      body
+    );
   }
 
   editIngredientType(body): Observable<any> {
-    return this.httpClient.put(this.serverUrl, body);
+    return this.httpClient.patch(
+      this.serverUrl + '/IngredientType/UpdateIngredientType',
+      body
+    );
+  }
+
+  getIngredientTypes(): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/IngredientType/GetIngredientTypes'
+    );
   }
 
   deleteIngredientType(id): Observable<any> {
-    //return this.httpClient.post(this.serverUrl);
-    return null;
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    return this.httpClient.delete(
+      this.serverUrl + '/IngredientType/DeleteIngredientType',
+      { headers: headers, body: id }
+    );
   }
 
   addDisease(body): Observable<any> {
-    return this.httpClient.post(this.serverUrl, body);
+    return this.httpClient.post(this.serverUrl + '/Disease/AddDisease', body);
+  }
+
+  getDiseases(): Observable<any> {
+    return this.httpClient.get(this.serverUrl + '/Disease/GetDiseases');
   }
 
   editDisease(body): Observable<any> {
-    return this.httpClient.put(this.serverUrl, body);
+    return this.httpClient.patch(
+      this.serverUrl + '/Disease/UpdateDisease',
+      body
+    );
   }
 
   deleteDisease(body): Observable<any> {
-    //return this.httpClient.delete();
-    return null;
+    return this.httpClient.delete(
+      this.serverUrl + '/Disease/DeleteDisease',
+      body
+    );
   }
 
   addIngredient(body): Observable<any> {
