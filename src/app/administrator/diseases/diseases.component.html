@@ -17,7 +17,11 @@
       <span nz-icon nzType="edit" (click)="showEditModal(disease)"></span>
     </ng-template>
     <ng-template #actionDelete>
-      <span nz-icon nzType="delete" (click)="showDeleteConfirm()"></span>
+      <span
+        nz-icon
+        nzType="delete"
+        (click)="showDeleteConfirm(disease.idDisease)"
+      ></span>
     </ng-template>
   </div>
 </div>
@@ -65,7 +69,11 @@
   <ng-template #modalEditTitle>Edit disease</ng-template>
 
   <ng-template #modalEditContent>
-    <input nz-input [value]="inputEditValue" (input)="onChangeEditValue()" />
+    <input
+      nz-input
+      [value]="inputEditValue"
+      (input)="onChangeEditValue($event)"
+    />
   </ng-template>
 
   <ng-template #modalEditFooter>

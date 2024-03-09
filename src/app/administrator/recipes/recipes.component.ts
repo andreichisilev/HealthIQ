@@ -11,6 +11,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
+import { AdministratorService } from '../../../_core/services/administrator.service';
+import { Ingredient } from '../../../_core/models/Ingredient';
 
 @Component({
   selector: 'app-recipes',
@@ -33,12 +35,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class RecipesComponent {
   recipes: Recipe[] = [];
+  ingredients: Ingredient[] = [];
+  selectedIngredients: string[] = [];
 
-  listOfOption = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
-  listOfSelectedValue: string[] = [];
+  constructor(private adminService: AdministratorService) {}
 
   isNotSelected(value: string): boolean {
-    return this.listOfSelectedValue.indexOf(value) === -1;
+    for (let i = 0; i < this.ingredients.length; i++) {
+      if (this.ingredients[i].ingredientName === value) {
+        return true;
+      }
+    }
+    return this.selectedIngredients.indexOf(value) === -1;
   }
 
   inputAddValue: string = '';
@@ -47,17 +55,21 @@ export class RecipesComponent {
   inputEditDisabled: boolean = true;
 
   ngOnInit() {
-    for (let i = 0; i < 5; i++) {
-      this.recipes.push({
-        idRecipe: i,
-        recipe_name: 'Recipee' + i,
-        recipe_instructions:
-          'InstructionsInstructionsInstructionsInstructionsInstructionsInstructionsInstructionsInstructionsInstructions',
-        cookingTime: 10,
-        photo_URL: '',
-        idUser: 0,
-      });
-    }
+    this.adminService.getIngredients().subscribe({
+      next: (response) => {
+        this.ingredients = response;
+      },
+      error: (error) => {},
+    });
+
+    this.adminService.getRecipes().subscribe({
+      next: (response) => {
+        this.recipes = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   isAddVisible = false;

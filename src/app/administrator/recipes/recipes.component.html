@@ -4,7 +4,7 @@
 
 <div class="addRow">
   <button nz-button nzType="primary" (click)="showAddModal()">
-    Add ingredient
+    Add recipe
   </button>
 </div>
 
@@ -53,13 +53,13 @@
       nzMode="multiple"
       nzPlaceHolder="Ingredients"
       style="width: 100%; margin-top: 12px"
-      [(ngModel)]="listOfSelectedValue"
+      [(ngModel)]="selectedIngredients"
     >
       <nz-option
-        *ngFor="let option of listOfOption"
-        [nzLabel]="option"
-        [nzValue]="option"
-        [nzHide]="!isNotSelected(option)"
+        *ngFor="let ingredient of ingredients"
+        [nzLabel]="ingredient.ingredientName"
+        [nzValue]="ingredient.idIngredient"
+        [nzHide]="!isNotSelected(ingredient.ingredientName)"
       ></nz-option>
     </nz-select>
     <input

@@ -56,22 +56,71 @@ export class AdministratorService {
   }
 
   deleteDisease(body): Observable<any> {
-    return this.httpClient.delete(
-      this.serverUrl + '/Disease/DeleteDisease',
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    return this.httpClient.delete(this.serverUrl + '/Disease/DeleteDisease', {
+      headers: headers,
+      body: body,
+    });
+  }
+
+  addIngredient(body): Observable<any> {
+    return this.httpClient.post(
+      this.serverUrl + '/Ingredient/AddIngredient',
       body
     );
   }
 
-  addIngredient(body): Observable<any> {
-    return this.httpClient.post(this.serverUrl, body);
+  getIngredients(): Observable<any> {
+    return this.httpClient.get(this.serverUrl + '/Ingredient/GetIngredients');
   }
 
   editIngredient(body): Observable<any> {
-    return this.httpClient.put(this.serverUrl, body);
+    return this.httpClient.patch(
+      this.serverUrl + '/Ingredient/UpdateIngredient',
+      body
+    );
   }
 
-  deleteIngredient(body): Observable<any> {
-    //return this.httpClient.delete();
-    return null;
+  deleteIngredient(id): Observable<any> {
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    return this.httpClient.delete(
+      this.serverUrl + '/Ingredient/DeleteIngredient',
+      {
+        headers: headers,
+        body: id,
+      }
+    );
+  }
+
+  addRecipe(body): Observable<any> {
+    return this.httpClient.post(this.serverUrl + '/Recipe/AddRecipes', body);
+  }
+
+  getRecipes(): Observable<any> {
+    return this.httpClient.get(this.serverUrl + '/Recipe/GetRecipes');
+  }
+
+  editRecipe(body): Observable<any> {
+    return this.httpClient.patch(
+      this.serverUrl + '/Recipe/UpdateRecipes',
+      body
+    );
+  }
+
+  deleteRecipe(id): Observable<any> {
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    return this.httpClient.delete(this.serverUrl + '/Recipe/DeleteRecipe', {
+      headers: headers,
+      body: id,
+    });
   }
 }

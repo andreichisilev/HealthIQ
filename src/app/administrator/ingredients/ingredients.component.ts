@@ -11,6 +11,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
+import { AdministratorService } from '../../../_core/services/administrator.service';
+import { IngredientType } from '../../../_core/models/IngredientType';
 
 @Component({
   selector: 'app-ingredients',
@@ -33,28 +35,48 @@ import { FormsModule } from '@angular/forms';
 })
 export class IngredientsComponent {
   ingredients: Ingredient[] = [];
+  ingredientTypes: IngredientType[] = [];
 
   inputAddValue: string = '';
+
+  addIngredient: Ingredient = {
+    idIngredient: 0,
+    ingredientName: '',
+    ingredientType: '',
+    caloriesNOPer100g: 0,
+    proteinNoPer100g: 0,
+    carboNoPer100g: 0,
+    fatsNoPer100g: 0,
+  };
 
   editIngredient: Ingredient;
 
   inputAddDisabled: boolean = true;
   inputEditDisabled: boolean = true;
 
-  constructor(private modal: NzModalService) {}
+  constructor(
+    private modal: NzModalService,
+    private adminService: AdministratorService
+  ) {}
 
   ngOnInit() {
-    for (let i = 0; i < 5; i++) {
-      this.ingredients.push({
-        idIngredient: i,
-        ingredient_Name: 'Ingredient' + i,
-        idIngredientType: 1,
-        caloriesNOPer100g: 100,
-        proteinNoPer100g: 100,
-        carboNoPer100g: 100,
-        fatsNoPer100g: 100,
-      });
-    }
+    this.adminService.getIngredientTypes().subscribe({
+      next: (response) => {
+        this.ingredientTypes = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    this.adminService.getIngredients().subscribe({
+      next: (response) => {
+        this.ingredients = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   isAddVisible = false;
@@ -71,10 +93,35 @@ export class IngredientsComponent {
 
   handleAddOk(): void {
     this.isAddVisible = false;
+
+    this.adminService.addIngredient(this.addIngredient).subscribe({
+      next: (response) => {
+        this.ingredients.push(this.addIngredient);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   handleEditOk(): void {
     this.isEditVisible = false;
+
+    this.adminService.editIngredient(this.editIngredient).subscribe({
+      next: (response) => {
+        for (let i = 0; i < this.ingredients.length; i++) {
+          if (
+            this.ingredients[i].idIngredient == this.editIngredient.idIngredient
+          ) {
+            this.ingredients[i] = this.editIngredient;
+            break;
+          }
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   handleAddCancel(): void {
@@ -93,13 +140,26 @@ export class IngredientsComponent {
     this.inputEditDisabled = false;
   }
 
-  showDeleteConfirm(): void {
+  showDeleteConfirm(idIngridient): void {
     this.modal.confirm({
       nzTitle: 'Are you sure you want to delete this ingredient?',
       nzOkText: 'Yes',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOnOk: () => console.log('OK'),
+      nzOnOk: () =>
+        this.adminService.deleteIngredient(idIngridient).subscribe({
+          next: (response) => {
+            for (let i = 0; i < this.ingredients.length; i++) {
+              if (this.ingredients[i].idIngredient == idIngridient) {
+                this.ingredients.splice(i, 1);
+                break;
+              }
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        }),
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
     });

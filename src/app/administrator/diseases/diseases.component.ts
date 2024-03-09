@@ -124,18 +124,31 @@ export class DiseasesComponent {
     this.inputAddValueStored = event.target.value;
   }
 
-  onChangeEditValue() {
+  onChangeEditValue(event) {
     this.inputEditDisabled = false;
-    this.inputEditValueStored = this.inputEditValue;
+    this.inputEditValueStored = event.target.value;
   }
 
-  showDeleteConfirm(): void {
+  showDeleteConfirm(idDisease): void {
     this.modal.confirm({
       nzTitle: 'Are you sure you want to delete this disease?',
       nzOkText: 'Yes',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOnOk: () => console.log('OK'),
+      nzOnOk: () =>
+        this.adminService.deleteDisease(idDisease).subscribe({
+          next: (response) => {
+            for (let i = 0; i < this.diseases.length; i++) {
+              if (this.diseases[i].idDisease == idDisease) {
+                this.diseases.splice(i, 1);
+                break;
+              }
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        }),
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
     });
