@@ -1,0 +1,190 @@
+<nz-steps
+  nzType="navigation"
+  nzSize="small"
+  [nzCurrent]="index"
+  (nzIndexChange)="onIndexChange($event)"
+>
+  <nz-step
+    nzTitle="Step 1"
+    [nzStatus]="statuses[0]"
+    [nzDisabled]="disabled[0]"
+  ></nz-step>
+  <nz-step
+    nzTitle="Step 2"
+    [nzStatus]="statuses[1]"
+    [nzDisabled]="disabled[1]"
+  ></nz-step>
+  <nz-step
+    nzTitle="Step 3"
+    [nzStatus]="statuses[2]"
+    [nzDisabled]="disabled[2]"
+  ></nz-step>
+  <nz-step
+    nzTitle="Step 4"
+    [nzStatus]="statuses[3]"
+    [nzDisabled]="disabled[3]"
+  ></nz-step>
+
+  <nz-step
+    nzTitle="Step 5"
+    [nzStatus]="statuses[4]"
+    [nzDisabled]="disabled[4]"
+  ></nz-step>
+  <nz-step
+    nzTitle="Step 6"
+    [nzStatus]="statuses[5]"
+    [nzDisabled]="disabled[5]"
+  ></nz-step>
+</nz-steps>
+
+<div>
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    nzNoColon
+    nzLabelAlign="left"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item [hidden]="steps[0]">
+      <nz-form-label nzRequired nzFor="fname" nzSpan="3">
+        First Name:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please input your first name!" nzSpan="8">
+        <input formControlName="firstName" nz-input id="fname" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [hidden]="steps[0]">
+      <nz-form-label nzRequired nzFor="lname" nzSpan="3">
+        Last Name:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please input your last name!" nzSpan="8">
+        <input formControlName="lastName" nz-input id="lname" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [hidden]="steps[1]">
+      <nz-form-label nzRequired nzFor="birthDate" nzSpan="3">
+        Birthday:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please input your birth date!" nzSpan="8">
+        <nz-date-picker
+          formControlName="birthDate"
+          id="birthDate"
+        ></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [hidden]="steps[2]">
+      <nz-form-label nzRequired nzFor="weight" nzSpan="3">
+        Weight:
+      </nz-form-label>
+      <nz-form-control
+        nzErrorTip="Please input your weight in kilograms!"
+        nzSpan="8"
+      >
+        <input formControlName="weight" nz-input id="weight" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [hidden]="steps[2]">
+      <nz-form-label nzRequired nzFor="height" nzSpan="3">
+        Height:
+      </nz-form-label>
+      <nz-form-control
+        nzErrorTip="Please input your height in centimeters!"
+        nzSpan="8"
+      >
+        <input formControlName="height" nz-input id="height" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [hidden]="steps[3]">
+      <nz-form-label nzRequired nzFor="fitLevel" nzSpan="3">
+        Fit Level:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please choose you fit level!" nzSpan="8">
+        <!-- <input formControlName="fitLevel" nz-input id="fitLevel" /> -->
+        <nz-select formControlName="fitLevel" id="fitLevel">
+          <nz-option nzLabel="Beginner" nzValue="beginner"></nz-option>
+          <nz-option nzLabel="Intermediate" nzValue="intermediate"></nz-option>
+          <nz-option nzLabel="Advanced" nzValue="advanced"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [hidden]="steps[3]">
+      <nz-form-label nzRequired nzFor="trainingFrequency" nzSpan="3">
+        Training Frequency:
+      </nz-form-label>
+      <nz-form-control
+        nzErrorTip="Please choose your training frequency!"
+        nzSpan="8"
+      >
+        <nz-select formControlName="trainingFrequency" id="trainingFrequency">
+          <nz-option nzLabel="2 times per week" nzValue="2"></nz-option>
+          <nz-option nzLabel="3 times per week" nzValue="3"></nz-option>
+          <nz-option nzLabel="4 times per week" nzValue="4"></nz-option>
+          <nz-option nzLabel="5 times per week" nzValue="5"></nz-option>
+          <nz-option nzLabel="6 times per week" nzValue="6"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [hidden]="steps[3]">
+      <nz-form-label nzRequired nzFor="userTarget" nzSpan="3">
+        User Target:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please choose your target!" nzSpan="8">
+        <nz-select formControlName="userTarget" id="userTarget">
+          <nz-option nzLabel="Lose weight" nzValue="lose"></nz-option>
+          <nz-option nzLabel="Gain muscle" nzValue="gain"></nz-option>
+          <nz-option nzLabel="Maintain" nzValue="maintain"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [hidden]="steps[4]">
+      <nz-form-label nzRequired nzFor="gender" nzSpan="3">
+        Gender:
+      </nz-form-label>
+      <nz-form-control nzErrorTip="Please select your gender!" nzSpan="8">
+        <nz-select formControlName="gender" id="gender">
+          <nz-option nzLabel="Male" nzValue="0"></nz-option>
+          <nz-option nzLabel="Female" nzValue="1"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item [hidden]="steps[5]">
+      <nz-form-label nzFor="profilePictureUrl">
+        <!-- Profile Picture: -->
+        <nz-form-control
+          nzErrorTip="Please choose your profile picture"
+          nzSpan="8"
+        >
+          <input
+            class="fileInput"
+            type="file"
+            nz-input
+            id="profilePictureUrl"
+            formControlName="profilePictureUrl"
+            (change)="onFileSelect($event)"
+          />
+        </nz-form-control>
+      </nz-form-label>
+    </nz-form-item>
+  </form>
+</div>
+
+<nz-button-group>
+  <button (click)="prev()" nz-button nzType="primary">
+    <span nz-icon nzType="left"></span>
+    Go back
+  </button>
+  <button
+    (click)="next()"
+    nz-button
+    nzType="primary"
+    [disabled]="!isValidForm()"
+  >
+    Go forward
+    <span nz-icon nzType="right"></span>
+  </button>
+</nz-button-group>

@@ -2,18 +2,87 @@
   <app-amenu></app-amenu>
 </div>
 
-<div class="diseasesWrapper">
-  <nz-card
-    *ngFor="let disease of diseases"
-    style="width: 300px"
-    [nzActions]="[actionEdit, actionDelete]"
-  >
-    <nz-card-meta nzTitle="{{disease.diseaseName}}"></nz-card-meta>
-  </nz-card>
-  <ng-template #actionEdit>
-    <span nz-icon nzType="edit"></span>
-  </ng-template>
-  <ng-template #actionDelete>
-    <span nz-icon nzType="delete"></span>
-  </ng-template>
+<div class="addRow">
+  <button nz-button nzType="primary" (click)="showAddModal()">
+    Add disease
+  </button>
 </div>
+
+<div class="diseasesWrapper">
+  <div *ngFor="let disease of diseases">
+    <nz-card style="width: 300px" [nzActions]="[actionEdit, actionDelete]">
+      <nz-card-meta nzTitle="{{ disease.diseaseName }}"></nz-card-meta>
+    </nz-card>
+    <ng-template #actionEdit>
+      <span
+        nz-icon
+        nzType="edit"
+        (click)="showEditModal(disease.diseaseName)"
+      ></span>
+    </ng-template>
+    <ng-template #actionDelete>
+      <span nz-icon nzType="delete" (click)="showDeleteConfirm()"></span>
+    </ng-template>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isAddVisible"
+  [nzTitle]="modalAddTitle"
+  [nzContent]="modalAddContent"
+  [nzFooter]="modalAddFooter"
+  (nzOnCancel)="handleAddCancel()"
+>
+  <ng-template #modalAddTitle>Add a new disease</ng-template>
+
+  <ng-template #modalAddContent>
+    <input
+      nz-input
+      [value]="inputAddValue"
+      (input)="onChangeAddValue()"
+      placeholder="Disease name"
+    />
+  </ng-template>
+
+  <ng-template #modalAddFooter>
+    <button nz-button nzType="default" (click)="handleAddCancel()">
+      Cancel
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="handleAddOk()"
+      [disabled]="inputAddDisabled"
+    >
+      Add
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isEditVisible"
+  [nzTitle]="modalEditTitle"
+  [nzContent]="modalEditContent"
+  [nzFooter]="modalEditFooter"
+  (nzOnCancel)="handleEditCancel()"
+>
+  <ng-template #modalEditTitle>Edit disease</ng-template>
+
+  <ng-template #modalEditContent>
+    <input nz-input [value]="inputEditValue" (input)="onChangeEditValue()" />
+  </ng-template>
+
+  <ng-template #modalEditFooter>
+    <button nz-button nzType="default" (click)="handleEditCancel()">
+      Cancel
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="handleEditOk()"
+      [disabled]="inputEditDisabled"
+    >
+      Edit
+    </button>
+  </ng-template>
+</nz-modal>

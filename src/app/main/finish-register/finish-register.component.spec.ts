@@ -8,10 +8,9 @@ describe('FinishRegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinishRegisterComponent]
-    })
-    .compileComponents();
-    
+      imports: [FinishRegisterComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(FinishRegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
