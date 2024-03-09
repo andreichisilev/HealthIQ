@@ -6,6 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-main-page',
@@ -16,6 +17,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     NzIconModule,
     NzLayoutModule,
     NzProgressModule,
+    NzButtonModule,
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -45,5 +47,10 @@ export class MainPageComponent {
 
   goToWellness() {
     this.router.navigate(['/main/wellness']);
+  }
+
+  logout() {
+    this.router.navigate(['auth/login']);
+    localStorage.removeItem('UserId');
   }
 }

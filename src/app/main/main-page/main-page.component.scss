@@ -23,6 +23,9 @@
     padding: 24px;
     background: #fff;
     min-height: 360px;
+    display: flex;
+    justify-content: center;
+    height: 77vh;
   }
 
   nz-footer {
@@ -45,4 +48,40 @@
   padding: 0 50px;
  }
 
- 
+ .water-buttons{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+ }
+
+ .water-monitor{
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 70%;
+  padding: 0 50px;
+ }
+
+@media screen and (max-width: 600px) {
+  .water-monitor{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 0px;
+  }
+  .water-buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0px;
+  }
+  nz-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10 10px;
+  }
+  
+}

@@ -13,6 +13,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { AdministratorService } from '../../../_core/services/administrator.service';
 import { Ingredient } from '../../../_core/models/Ingredient';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'app-recipes',
@@ -29,6 +30,7 @@ import { Ingredient } from '../../../_core/models/Ingredient';
     NzSelectModule,
     NzButtonModule,
     FormsModule,
+    NzDividerModule,
   ],
   templateUrl: './recipes.component.html',
   styleUrl: './recipes.component.scss',
@@ -37,6 +39,13 @@ export class RecipesComponent {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
   selectedIngredients: string[] = [];
+
+  ingredientMasses = [];
+  listOfSelectedValue: string[] = [];
+
+  isNotSelectedIngredientMass(value: string): boolean {
+    return this.listOfSelectedValue.indexOf(value) === -1;
+  }
 
   constructor(private adminService: AdministratorService) {}
 
@@ -70,6 +79,10 @@ export class RecipesComponent {
         console.log(error);
       },
     });
+
+    for (let i = 1; i <= 50; i++) {
+      this.ingredientMasses.push(i * 10);
+    }
   }
 
   isAddVisible = false;

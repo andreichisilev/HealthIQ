@@ -18,11 +18,7 @@
         <span nz-icon nzType="heart"></span>
         <span>Wellness</span>
       </li>
-      <li nz-menu-item>
-        <span nz-icon nzType="coffee"></span>
-        <span>Water</span>
-      </li>
-      <li nz-menu-item>
+      <li nz-menu-item (click)="logout()">
         <span nz-icon nzType="logout"></span>
         <span>Logout</span>
       </li>
@@ -36,11 +32,36 @@
     <nz-content>
       <div class="inner-content">
         <div class="water-monitor">
-          <h2>Water Monitor</h2>
-          <nz-progress [nzPercent]="percent"></nz-progress>
+          <h2 style="text-align: center">Water Monitor</h2>
+          <img
+            style="
+              width: 35%;
+              margin: 0 auto;
+              display: block;
+              margin-bottom: 20px;
+            "
+            src="assets/water-level.svg"
+            alt="Water Level"
+          />
+
+          <nz-progress [nzPercent]="percent" nzStatus="active"></nz-progress>
           <div class="water-buttons">
-            <button nz-button nzType="primary" (click)="decrease()">-</button>
-            <button nz-button nzType="primary" (click)="increase()">+</button>
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              (click)="decrease()"
+            >
+              <span nz-icon nzType="minus"></span>
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              (click)="increase()"
+            >
+              <span nz-icon nzType="plus"></span>
+            </button>
           </div>
         </div>
       </div>
