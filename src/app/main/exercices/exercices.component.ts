@@ -49,10 +49,6 @@ export class ExercicesComponent {
     this.router.navigate(['/main/recipes']);
   }
 
-  goToWellness() {
-    this.router.navigate(['/main/wellness']);
-  }
-
   goToExercises() {
     this.router.navigate(['/main/exercises']);
   }

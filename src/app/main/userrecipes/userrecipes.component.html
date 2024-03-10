@@ -1,17 +1,15 @@
 <nz-layout>
   <nz-sider nzCollapsible nzWidth="200px">
-    <div class="logo" (click)="goToHome()"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline" class="sticky-menu">
       <li nz-submenu nzTitle="Train" nzIcon="fire">
         <ul>
-          <li nz-menu-item>Exercices</li>
-          <li nz-menu-item>Workouts</li>
+          <li nz-menu-item (click)="goToExercises()">Exercices</li>
+          <li nz-menu-item (click)="goToWorkouts()">Workouts</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Meals" nzIcon="experiment">
         <ul>
           <li nz-menu-item>Recipes</li>
-          <li nz-menu-item>My Recipes</li>
         </ul>
       </li>
       <li nz-menu-item (click)="logout()">
@@ -22,7 +20,7 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <h1>Health IQ</h1>
+      <h1><a (click)="goToHome()">Health IQ</a></h1>
       <p>
         {{ user.points }}
         <span nz-icon nzType="dollar" nzTheme="outline"></span>

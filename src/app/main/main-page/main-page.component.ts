@@ -70,7 +70,8 @@ export class MainPageComponent {
           console.log(this.user.waterGlassesToday);
         },
         error: (error) => {
-          console.log(error);
+          this.user.waterGlassesToday = 0;
+          console.log(this.user.waterGlassesToday);
         },
       });
   }

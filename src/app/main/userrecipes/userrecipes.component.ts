@@ -163,6 +163,14 @@ export class UserrecipesComponent {
     this.router.navigate(['/main/wellness']);
   }
 
+  goToExercises() {
+    this.router.navigate(['/main/exercises']);
+  }
+
+  goToWorkouts() {
+    this.router.navigate(['/main/workouts']);
+  }
+
   logout() {
     this.router.navigate(['auth/login']);
     localStorage.removeItem('UserId');
