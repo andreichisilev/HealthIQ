@@ -38,13 +38,24 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 export class RecipesComponent {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
-  selectedIngredients: string[] = [];
+
+  selectedIngredients: Ingredient[] = [];
+  selectedIngredientMasses: string[] = [];
 
   ingredientMasses = [];
-  listOfSelectedValue: string[] = [];
+
+  addRecipe: Recipe = {
+    idRecipe: 0,
+    recipeName: '',
+    recipeInstructions: '',
+    cookingTime: null,
+    photo_URL: '',
+    idUser: null,
+  };
+  editRecipe: Recipe;
 
   isNotSelectedIngredientMass(value: string): boolean {
-    return this.listOfSelectedValue.indexOf(value) === -1;
+    return this.selectedIngredientMasses.indexOf(value) === -1;
   }
 
   constructor(private adminService: AdministratorService) {}
@@ -55,7 +66,7 @@ export class RecipesComponent {
         return true;
       }
     }
-    return this.selectedIngredients.indexOf(value) === -1;
+    return false;
   }
 
   inputAddValue: string = '';
@@ -99,6 +110,36 @@ export class RecipesComponent {
 
   handleAddOk(): void {
     this.isAddVisible = false;
+
+    this.addRecipe.photo_URL = this.addRecipe.photo_URL.substring(
+      this.addRecipe.photo_URL.indexOf('\\' + 1)
+    );
+
+    this.adminService.addRecipe(this.addRecipe).subscribe({
+      next: (response) => {
+        for (let i = 0; i < this.ingredients.length; i++) {
+          const payload = {
+            idRecipe: response.id,
+            idIngredient: this.selectedIngredients[i].idIngredient,
+            grams: this.selectedIngredientMasses[i],
+          };
+
+          this.adminService.addRecipeIngredient(payload).subscribe({
+            next: (response) => {},
+            error: (error) => {
+              console.log(error);
+            },
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    console.log(this.addRecipe);
+    console.log(this.selectedIngredients);
+    console.log(this.selectedIngredientMasses);
   }
 
   handleEditOk(): void {

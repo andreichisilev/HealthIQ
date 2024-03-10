@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { FinishRegisterComponent } from './finish-register/finish-register.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { WellnessComponent } from './wellness/wellness.component';
+import { UserrecipesComponent } from './userrecipes/userrecipes.component';
+import { ExercicesComponent } from './exercices/exercices.component';
+import { WorkoutsComponent } from './workouts/workouts.component';
 const routes: Routes = [
   {
     path: 'finish/register',
@@ -15,6 +18,18 @@ const routes: Routes = [
   {
     path: 'wellness',
     component: WellnessComponent,
+  },
+  {
+    path: 'recipes',
+    component: UserrecipesComponent,
+  },
+  {
+    path: 'exercises',
+    component: ExercicesComponent,
+  },
+  {
+    path: 'workouts',
+    component: WorkoutsComponent,
   },
 ];
 

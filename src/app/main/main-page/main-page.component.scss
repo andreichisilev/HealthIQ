@@ -56,20 +56,44 @@
  }
 
  .water-monitor{
+  position:absolute;
+  top: 60%;
+  left: 75%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  width: 70%;
+  width: 25%;
+  height: 25%;
   padding: 0 50px;
  }
 
+ .advice-cards{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: auto;
+  gap: 24px;
+  padding: 0 50px;
+}
+
+.greetings{
+  //align top-left inside parent
+  top: 0;
+  left: 0;
+
+}
+
 @media screen and (max-width: 600px) {
   .water-monitor{
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    width: 100%;
-    padding: 0 0px;
+  position:relative;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 80%;
+  height: 60%;
   }
   .water-buttons{
     display: flex;
@@ -85,3 +109,4 @@
   }
   
 }
+

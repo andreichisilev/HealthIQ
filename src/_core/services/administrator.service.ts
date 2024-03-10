@@ -99,7 +99,7 @@ export class AdministratorService {
   }
 
   addRecipe(body): Observable<any> {
-    return this.httpClient.post(this.serverUrl + '/Recipe/AddRecipes', body);
+    return this.httpClient.post(this.serverUrl + '/Recipe/AddRecipe', body);
   }
 
   getRecipes(): Observable<any> {
@@ -107,10 +107,7 @@ export class AdministratorService {
   }
 
   editRecipe(body): Observable<any> {
-    return this.httpClient.patch(
-      this.serverUrl + '/Recipe/UpdateRecipes',
-      body
-    );
+    return this.httpClient.patch(this.serverUrl + '/Recipe/UpdateRecipe', body);
   }
 
   deleteRecipe(id): Observable<any> {
@@ -122,5 +119,12 @@ export class AdministratorService {
       headers: headers,
       body: id,
     });
+  }
+
+  addRecipeIngredient(body): Observable<any> {
+    return this.httpClient.post(
+      this.serverUrl + '/Recipe/AddRecipeWithIngredients',
+      body
+    );
   }
 }

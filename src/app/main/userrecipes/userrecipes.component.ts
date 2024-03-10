@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
+import { Recipe } from '../../../_core/models/Recipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-main-page',
+  selector: 'app-userrecipes',
   standalone: true,
   imports: [
     NzDropDownModule,
@@ -18,32 +20,27 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzIconModule,
     NzLayoutModule,
     NzProgressModule,
-    NzButtonModule,
     NzCardModule,
+    NzAvatarModule,
+    CommonModule,
   ],
-  templateUrl: './main-page.component.html',
-  styleUrl: './main-page.component.scss',
+  templateUrl: './userrecipes.component.html',
+  styleUrl: './userrecipes.component.scss',
 })
-export class MainPageComponent {
-  percent = 0;
-  user = {
-    name: 'John Doe',
-    email: 'test@gmail.com',
-  };
-
+export class UserrecipesComponent {
   constructor(private router: Router) {}
+  recipes: Recipe[] = [];
 
-  increase() {
-    this.percent += 10;
-    if (this.percent > 100) {
-      this.percent = 100;
-    }
-  }
-
-  decrease() {
-    this.percent -= 10;
-    if (this.percent < 0) {
-      this.percent = 0;
+  ngOnInit(): void {
+    for (let i = 0; i < 10; i++) {
+      this.recipes.push({
+        idRecipe: i,
+        recipeName: 'Recipe' + i,
+        recipeInstructions: 'Instructions' + i,
+        cookingTime: 10,
+        photo_URL: '',
+        idUser: 0,
+      });
     }
   }
 
@@ -51,20 +48,8 @@ export class MainPageComponent {
     this.router.navigate(['/main/home']);
   }
 
-  goToMeals() {
-    this.router.navigate(['/main/recipes']);
-  }
-
   goToWellness() {
     this.router.navigate(['/main/wellness']);
-  }
-
-  goToExercises() {
-    this.router.navigate(['/main/exercises']);
-  }
-
-  goToWorkouts() {
-    this.router.navigate(['/main/workouts']);
   }
 
   logout() {

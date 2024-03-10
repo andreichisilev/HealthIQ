@@ -16,8 +16,8 @@
     *ngFor="let recipe of recipes"
   >
     <nz-card-meta
-      nzTitle="{{ recipe.recipe_name }}"
-      nzDescription="Mod de preparare: {{ recipe.recipe_instructions }}
+      nzTitle="{{ recipe.recipeName }}"
+      nzDescription="Mod de preparare: {{ recipe.recipeInstructions }}
       Timp de gatire: {{ recipe.cookingTime }}"
       style="white-space: pre-line"
     ></nz-card-meta>
@@ -45,7 +45,7 @@
   <ng-template #modalAddContent>
     <input
       nz-input
-      [value]="inputAddValue"
+      [(ngModel)]="addRecipe.recipeName"
       (input)="onChangeAddValue()"
       placeholder="Recipe name"
     />
@@ -66,7 +66,7 @@
       nzMode="multiple"
       nzPlaceHolder="Ingredients masses"
       style="width: 100%; margin-top: 12px"
-      [(ngModel)]="selectedIngredients"
+      [(ngModel)]="selectedIngredientMasses"
     >
       <nz-option
         *ngFor="let ingredientMass of ingredientMasses"
@@ -76,7 +76,7 @@
     </nz-select>
     <input
       nz-input
-      [value]="inputAddValue"
+      [(ngModel)]="addRecipe.recipeInstructions"
       (input)="onChangeAddValue()"
       placeholder="Recipe instructions"
       style="margin-top: 12px"
@@ -84,10 +84,17 @@
     <nz-input-number
       style="width: 100%; margin-top: 12px"
       nzPlaceHolder="Cooking time"
+      [(ngModel)]="addRecipe.cookingTime"
       [nzMin]="1"
       [nzMax]="10"
       [nzStep]="1"
     ></nz-input-number>
+    <input
+      nz-input
+      type="file"
+      style="margin-top: 12px"
+      [(ngModel)]="addRecipe.photo_URL"
+    />
   </ng-template>
 
   <ng-template #modalAddFooter>
