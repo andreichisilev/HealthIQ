@@ -9,28 +9,36 @@
 </div>
 
 <div class="recipesContainer">
-  <nz-card
-    style="width: 300px"
-    [nzCover]="coverTemplate"
-    [nzActions]="[actionEdit, actionDelete]"
-    *ngFor="let recipe of recipes"
-  >
-    <nz-card-meta
-      nzTitle="{{ recipe.recipeName }}"
-      nzDescription="Mod de preparare: {{ recipe.recipeInstructions }}
-      Timp de gatire: {{ recipe.cookingTime }}"
-      style="white-space: pre-line"
-    ></nz-card-meta>
-  </nz-card>
-  <ng-template #coverTemplate>
-    <img alt="image" src="assets/bake.jpg" />
-  </ng-template>
-  <ng-template #actionEdit>
-    <span nz-icon nzType="edit"></span>
-  </ng-template>
-  <ng-template #actionDelete>
-    <span nz-icon nzType="delete"></span>
-  </ng-template>
+  <div *ngFor="let recipe of recipes">
+    <nz-card
+      style="width: 300px"
+      [nzCover]="coverTemplate"
+      [nzActions]="[actionExpand, actionDelete]"
+    >
+      <nz-card-meta
+        nzTitle="{{ recipe.recipeName }}"
+        nzDescription="Timp de gatire: {{ recipe.cookingTime }} minute"
+        style="white-space: pre-line"
+      ></nz-card-meta>
+    </nz-card>
+    <ng-template #coverTemplate>
+      <img alt="image" src="assets/bake.jpg" />
+    </ng-template>
+    <ng-template #actionExpand>
+      <span
+        nz-icon
+        nzType="expand"
+        (click)="showExpandModal(recipe.recipeName)"
+      ></span>
+    </ng-template>
+    <ng-template #actionDelete>
+      <span
+        nz-icon
+        nzType="delete"
+        (click)="showDeleteConfirm(recipe.idRecipe)"
+      ></span>
+    </ng-template>
+  </div>
 </div>
 
 <nz-modal
@@ -86,7 +94,6 @@
       nzPlaceHolder="Cooking time"
       [(ngModel)]="addRecipe.cookingTime"
       [nzMin]="1"
-      [nzMax]="10"
       [nzStep]="1"
     ></nz-input-number>
     <input
@@ -108,6 +115,33 @@
       [disabled]="inputAddDisabled"
     >
       Add
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isExpandVisible"
+  [nzTitle]="modalExpandTitle"
+  [nzContent]="modalExpandContent"
+  [nzFooter]="modalExpandFooter"
+  (nzOnCancel)="handleExpandCancel()"
+>
+  <ng-template #modalExpandTitle>Recipe details</ng-template>
+
+  <ng-template #modalExpandContent>
+    <p><strong>Ingrediente:</strong></p>
+    <p *ngFor="let ingredient of listOfCurrentIngredients">
+      {{ ingredient.ingredientName }}
+    </p>
+    <p>
+      <strong>Mod de preparare: </strong
+      >{{ listOfCurrentIngredients[0].recipeInstructions }}
+    </p>
+  </ng-template>
+
+  <ng-template #modalExpandFooter>
+    <button nz-button nzType="default" (click)="handleExpandCancel()">
+      Close
     </button>
   </ng-template>
 </nz-modal>

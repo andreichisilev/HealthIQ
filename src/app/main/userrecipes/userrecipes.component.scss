@@ -57,13 +57,20 @@
  }
 
  .ingredientType {
-    width: 100px;
+    width: 120px;
     height: 20px;
-    background-color: rgb(255, 238, 220);
+    background-color: rgb(251, 238, 224);
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+ }
+
+ .ingredientTypeActive {
+  background-color: rgb(250, 217, 182);
  }
 
  .recipesArea {

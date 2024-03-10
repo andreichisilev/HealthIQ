@@ -5,7 +5,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
 import { Recipe } from '../../../_core/models/Recipe';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { AdministratorService } from '../../../_core/services/administrator.service';
 import { Ingredient } from '../../../_core/models/Ingredient';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { RecipeIngredient } from '../../../_core/models/RecipeIngredient';
 
 @Component({
   selector: 'app-recipes',
@@ -38,6 +39,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 export class RecipesComponent {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
+  recipesIngredients: RecipeIngredient[] = [];
+  listOfCurrentIngredients: RecipeIngredient[] = [];
 
   selectedIngredients: Ingredient[] = [];
   selectedIngredientMasses: string[] = [];
@@ -54,11 +57,16 @@ export class RecipesComponent {
   };
   editRecipe: Recipe;
 
+  isExpandVisible: boolean = false;
+
   isNotSelectedIngredientMass(value: string): boolean {
     return this.selectedIngredientMasses.indexOf(value) === -1;
   }
 
-  constructor(private adminService: AdministratorService) {}
+  constructor(
+    private adminService: AdministratorService,
+    private modal: NzModalService
+  ) {}
 
   isNotSelected(value: string): boolean {
     for (let i = 0; i < this.ingredients.length; i++) {
@@ -94,6 +102,15 @@ export class RecipesComponent {
     for (let i = 1; i <= 50; i++) {
       this.ingredientMasses.push(i * 10);
     }
+
+    this.adminService.getRecipesIngredients().subscribe({
+      next: (response) => {
+        this.recipesIngredients = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   isAddVisible = false;
@@ -117,11 +134,12 @@ export class RecipesComponent {
 
     this.adminService.addRecipe(this.addRecipe).subscribe({
       next: (response) => {
-        for (let i = 0; i < this.ingredients.length; i++) {
+        this.recipes.push(this.addRecipe);
+        for (let i = 0; i < this.selectedIngredients.length; i++) {
           const payload = {
-            idRecipe: response.id,
-            idIngredient: this.selectedIngredients[i].idIngredient,
-            grams: this.selectedIngredientMasses[i],
+            idRecipe: parseInt(response),
+            idIngredient: this.selectedIngredients[i],
+            grams: parseInt(this.selectedIngredientMasses[i]),
           };
 
           this.adminService.addRecipeIngredient(payload).subscribe({
@@ -136,10 +154,6 @@ export class RecipesComponent {
         console.log(error);
       },
     });
-
-    console.log(this.addRecipe);
-    console.log(this.selectedIngredients);
-    console.log(this.selectedIngredientMasses);
   }
 
   handleEditOk(): void {
@@ -160,5 +174,52 @@ export class RecipesComponent {
 
   onChangeEditValue() {
     this.inputEditDisabled = false;
+  }
+
+  showExpandModal(recipeName) {
+    this.isExpandVisible = true;
+
+    this.listOfCurrentIngredients = [];
+
+    for (let i = 0; i < this.recipesIngredients.length; i++) {
+      console.log(this.recipesIngredients[i].recipeName + ' ' + recipeName);
+      if (this.recipesIngredients[i].recipeName === recipeName) {
+        this.listOfCurrentIngredients.push(this.recipesIngredients[i]);
+      }
+    }
+  }
+
+  handleExpandCancel() {
+    this.isExpandVisible = false;
+  }
+
+  showDeleteConfirm(idRecipe): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this recipe?',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.adminService.deleteRecipeWithIngredients(idRecipe).subscribe({
+          next: (response) => {
+            this.adminService.deleteRecipe(idRecipe).subscribe({
+              next: () => {
+                for (let i = 0; i < this.recipes.length; i++) {
+                  if (this.recipes[i].idRecipe === idRecipe) {
+                    this.recipes.splice(i, 1);
+                    this.recipesIngredients.splice(i, 1);
+                    break;
+                  }
+                }
+              },
+              error: (error) => {
+                console.log(error);
+              },
+            });
+          },
+        }),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
   }
 }

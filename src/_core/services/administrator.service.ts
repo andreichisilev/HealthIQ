@@ -110,6 +110,20 @@ export class AdministratorService {
     return this.httpClient.patch(this.serverUrl + '/Recipe/UpdateRecipe', body);
   }
 
+  deleteRecipeWithIngredients(id): Observable<any> {
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    return this.httpClient.delete(
+      this.serverUrl + '/Recipe/DeleteRecipeWithIngredients',
+      {
+        headers: headers,
+        body: id,
+      }
+    );
+  }
+
   deleteRecipe(id): Observable<any> {
     const headers = new HttpHeaders().set(
       'Content-Type',
@@ -125,6 +139,12 @@ export class AdministratorService {
     return this.httpClient.post(
       this.serverUrl + '/Recipe/AddRecipeWithIngredients',
       body
+    );
+  }
+
+  getRecipesIngredients(): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/RecipeIngredients/GetRecipeJoinIngredients'
     );
   }
 }

@@ -32,33 +32,66 @@
     <nz-content>
       <div class="inner-content" style="height: auto">
         <div class="ingredientTypeArea">
-          <div class="ingredientType">Test</div>
-          <div class="ingredientType">Test</div>
-          <div class="ingredientType">Test</div>
-          <div class="ingredientType">Test</div>
-          <div class="ingredientType">Test</div>
+          <div
+            class="ingredientType"
+            *ngFor="let ingredientType of ingredientTypes; let i = index"
+            [ngClass]="{ ingredientTypeActive: filterSelected === i }"
+            (click)="selectFilter(i)"
+          >
+            {{ ingredientType.ingredientType }}
+          </div>
         </div>
         <div class="recipesArea">
-          <nz-card
-            style="width: 300px"
-            [nzCover]="coverTemplate"
-            [nzActions]="[actionExpand]"
-            *ngFor="let recipe of recipes"
-          >
-            <nz-card-meta
-              nzTitle="Card title"
-              nzDescription="This is the description"
-            ></nz-card-meta>
-          </nz-card>
-          <ng-template #coverTemplate>
-            <img alt="example" src="assets/bake.jpg" />
-          </ng-template>
-          <ng-template #actionExpand>
-            <span nz-icon nzType="expand"></span>
-          </ng-template>
+          <div *ngFor="let recipe of recipes">
+            <nz-card
+              style="width: 300px"
+              [nzCover]="coverTemplate"
+              [nzActions]="[actionExpand]"
+            >
+              <nz-card-meta
+                nzTitle="{{ recipe.recipeName }}"
+                nzDescription="Timp de gatire: {{ recipe.cookingTime }} minute"
+              ></nz-card-meta>
+            </nz-card>
+            <ng-template #coverTemplate>
+              <img alt="example" src="assets/bake.jpg" />
+            </ng-template>
+            <ng-template #actionExpand>
+              <span
+                nz-icon
+                nzType="expand"
+                (click)="showModal(recipe.recipeName)"
+              ></span>
+            </ng-template>
+          </div>
         </div>
       </div>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-template #modalTitle>Recipe details</ng-template>
+
+  <ng-template #modalContent
+    ><p><strong>Ingredients:</strong></p>
+    <p *ngFor="let ingredient of listOfCurrentIngredients">
+      {{ ingredient.ingredientName }}
+    </p>
+    <p>
+      <strong>Mod de preparare: </strong
+      >{{ listOfCurrentIngredients[0].recipeInstructions }}
+    </p>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+  </ng-template>
+</nz-modal>

@@ -31,22 +31,20 @@
     </nz-header>
     <nz-content>
       <div class="inner-content">
-        <!--greetings for user-->
         <div class="greetings">
           <h2>Welcome,</h2>
           <p>{{ user.name }}!</p>
         </div>
-        <!--todo: add advices-->
         <div class="advice-cards">
-          <button nz-button nzType="primary">
+          <!-- <button nz-button nzType="primary" (click)="prevCard()">
             <span nz-icon nzType="left"></span>
-          </button>
-          <nz-card style="width: 400px; height: 200px">
-            <p>Card content</p>
+          </button> -->
+          <nz-card>
+            <h2>Daily recommended calories for you</h2>
           </nz-card>
-          <button nz-button nzType="primary">
+          <!-- <button nz-button nzType="primary" (click)="nextCard()">
             <span nz-icon nzType="right"></span>
-          </button>
+          </button> -->
         </div>
         <div class="water-monitor">
           <h2 style="text-align: center">Water Monitor</h2>

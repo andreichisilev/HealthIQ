@@ -31,6 +31,9 @@ export class MainPageComponent {
     email: 'test@gmail.com',
   };
 
+  cards = [1, 2, 3, 4];
+  card_index = 0;
+
   constructor(private router: Router) {}
 
   increase() {
@@ -71,4 +74,20 @@ export class MainPageComponent {
     this.router.navigate(['auth/login']);
     localStorage.removeItem('UserId');
   }
+
+  // nextCard() {
+  //   if (this.card_index < this.cards.length - 1) {
+  //     this.card_index++;
+  //   } else {
+  //     this.card_index = 0;
+  //   }
+  // }
+
+  // prevCard() {
+  //   if (this.card_index > 0) {
+  //     this.card_index--;
+  //   } else {
+  //     this.card_index = this.cards.length - 1;
+  //   }
+  // }
 }

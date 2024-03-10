@@ -43,10 +43,10 @@ export class IngredientsComponent {
     idIngredient: 0,
     ingredientName: '',
     ingredientType: '',
-    caloriesNOPer100g: 0,
-    proteinNoPer100g: 0,
-    carboNoPer100g: 0,
-    fatsNoPer100g: 0,
+    caloriesNOPer100g: null,
+    proteinNoPer100g: null,
+    carboNoPer100g: null,
+    fatsNoPer100g: null,
   };
 
   editIngredient: Ingredient;
@@ -84,6 +84,15 @@ export class IngredientsComponent {
 
   showAddModal(): void {
     this.isAddVisible = true;
+    this.addIngredient = {
+      idIngredient: 0,
+      ingredientName: '',
+      ingredientType: '',
+      caloriesNOPer100g: null,
+      proteinNoPer100g: null,
+      carboNoPer100g: null,
+      fatsNoPer100g: null,
+    };
   }
 
   showEditModal(ingredient) {
