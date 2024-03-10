@@ -14,10 +14,6 @@
           <li nz-menu-item>My Recipes</li>
         </ul>
       </li>
-      <li nz-menu-item (click)="goToWellness()">
-        <span nz-icon nzType="heart"></span>
-        <span>Wellness</span>
-      </li>
       <li nz-menu-item (click)="logout()">
         <span nz-icon nzType="logout"></span>
         <span>Logout</span>
@@ -27,7 +23,10 @@
   <nz-layout>
     <nz-header>
       <h1>Health IQ</h1>
-      <p>50 <span nz-icon nzType="dollar" nzTheme="outline"></span></p>
+      <p>
+        {{ user.points }}
+        <span nz-icon nzType="dollar" nzTheme="outline"></span>
+      </p>
     </nz-header>
     <nz-content>
       <div class="inner-content" style="height: auto">
@@ -42,7 +41,7 @@
           </div>
         </div>
         <div class="recipesArea">
-          <div *ngFor="let recipe of recipes">
+          <div *ngFor="let recipe of availableRecipes">
             <nz-card
               style="width: 300px"
               [nzCover]="coverTemplate"
@@ -83,7 +82,7 @@
   <ng-template #modalContent
     ><p><strong>Ingredients:</strong></p>
     <p *ngFor="let ingredient of listOfCurrentIngredients">
-      {{ ingredient.ingredientName }}
+      {{ ingredient.ingredientName }} - {{ ingredient.grams }} grame
     </p>
     <p>
       <strong>Mod de preparare: </strong

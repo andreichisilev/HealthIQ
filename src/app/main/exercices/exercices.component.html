@@ -36,15 +36,19 @@
             style="width: 300px"
             [nzCover]="coverTemplate"
             [nzActions]="[actionExpand]"
-            *ngFor="let exercice of exercices"
+            *ngFor="let exercise of exercices"
           >
             <nz-card-meta
-              [nzTitle]="exercice.name"
-              [nzDescription]="exercice.description"
+              [nzTitle]="exercise.exerciseName"
+              nzDescription="
+                Muscle group: {{ exercise.muscleGroupName }}
+                Difficulty: {{ exercise.difficultyLevel }}
+                "
+              style="white-space: pre-line"
             ></nz-card-meta>
           </nz-card>
           <ng-template #coverTemplate>
-            <img alt="example" src="assets/bake.jpg" />
+            <img alt="example" src="assets/exercice.jpg" />
           </ng-template>
           <ng-template #actionExpand>
             <span nz-icon nzType="expand"></span>

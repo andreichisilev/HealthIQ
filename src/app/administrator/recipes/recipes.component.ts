@@ -132,6 +132,10 @@ export class RecipesComponent {
       this.addRecipe.photo_URL.indexOf('\\' + 1)
     );
 
+    console.log(
+      this.addRecipe.photo_URL + ' ' + this.addRecipe.photo_URL.substring(12)
+    );
+
     this.adminService.addRecipe(this.addRecipe).subscribe({
       next: (response) => {
         this.recipes.push(this.addRecipe);
@@ -182,7 +186,6 @@ export class RecipesComponent {
     this.listOfCurrentIngredients = [];
 
     for (let i = 0; i < this.recipesIngredients.length; i++) {
-      console.log(this.recipesIngredients[i].recipeName + ' ' + recipeName);
       if (this.recipesIngredients[i].recipeName === recipeName) {
         this.listOfCurrentIngredients.push(this.recipesIngredients[i]);
       }

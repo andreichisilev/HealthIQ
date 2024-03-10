@@ -1,5 +1,6 @@
 export interface RecipeIngredient {
   idRecipeIngredients: number;
+  idRecipe: number;
   recipeName: string;
   recipeInstructions: string;
   cookingTime: number;
@@ -10,4 +11,5 @@ export interface RecipeIngredient {
   proteinNoPer100g: number;
   carboNoPer100g: number;
   fatsNoPer100g: number;
+  grams: number;
 }

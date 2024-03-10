@@ -14,10 +14,10 @@
           <li nz-menu-item>My Recipes</li>
         </ul>
       </li>
-      <li nz-menu-item (click)="goToWellness()">
+      <!-- <li nz-menu-item (click)="goToWellness()">
         <span nz-icon nzType="heart"></span>
         <span>Wellness</span>
-      </li>
+      </li> -->
       <li nz-menu-item (click)="logout()">
         <span nz-icon nzType="logout"></span>
         <span>Logout</span>
@@ -27,13 +27,16 @@
   <nz-layout>
     <nz-header>
       <h1>Health IQ</h1>
-      <p>50 <span nz-icon nzType="dollar" nzTheme="outline"></span></p>
+      <p>
+        {{ user.points }}
+        <span nz-icon nzType="dollar" nzTheme="outline"></span>
+      </p>
     </nz-header>
     <nz-content>
       <div class="inner-content">
         <div class="greetings">
           <h2>Welcome,</h2>
-          <p>{{ user.name }}!</p>
+          <h3>{{ user.firstName }}!</h3>
         </div>
         <div class="advice-cards">
           <!-- <button nz-button nzType="primary" (click)="prevCard()">
@@ -41,6 +44,9 @@
           </button> -->
           <nz-card>
             <h2>Daily recommended calories for you</h2>
+            <h3 style="text-align: center; font-size: 80px">
+              <strong>{{ dailyCalories }}</strong>
+            </h3>
           </nz-card>
           <!-- <button nz-button nzType="primary" (click)="nextCard()">
             <span nz-icon nzType="right"></span>

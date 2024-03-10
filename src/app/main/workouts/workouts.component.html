@@ -31,30 +31,36 @@
     </nz-header>
     <nz-content>
       <div class="inner-content">
-        <div class="workoutsArea">
-          <nz-card
-            style="width: 300px"
-            [nzCover]="coverTemplate"
-            [nzActions]="[actionExpand, actionEdit]"
-            *ngFor="let workout of workouts"
-          >
-            <nz-card-meta
-              [nzTitle]="workout.name"
-              [nzDescription]="workout.description"
-            ></nz-card-meta>
-          </nz-card>
-          <ng-template #coverTemplate>
-            <img alt="example" src="assets/bake.jpg" />
-          </ng-template>
-          <ng-template #actionExpand>
-            <span nz-icon nzType="expand"></span>
-          </ng-template>
-          <ng-template #actionEdit>
-            <span nz-icon nzType="edit"></span>
-          </ng-template>
-        </div>
+        <nz-steps [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
+          <nz-step
+            *ngFor="let workout of workouts; let i = index"
+            nzTitle="Day {{ i + 1 }}"
+            nzDescription="{{ handleWorkout(workout.exercise_Details) }}"
+          ></nz-step>
+        </nz-steps>
+        <nz-divider></nz-divider>
+        <nz-steps
+          nzDirection="vertical"
+          [nzCurrent]="index"
+          (nzIndexChange)="onIndexChange($event)"
+        >
+          <nz-step
+            *ngFor="let workout of workouts; let i = index"
+            nzTitle="Day {{ i + 1 }}"
+            nzDescription="This is a description."
+          ></nz-step>
+        </nz-steps>
       </div>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>
+
+<ng-template #titleTemplate>
+  <span nz-icon nzType="close"></span>
+  Title
+</ng-template>
+<ng-template #contentTemplate>
+  <span nz-icon nzType="check"></span>
+  Content
+</ng-template>

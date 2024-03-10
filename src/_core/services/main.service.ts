@@ -13,4 +13,48 @@ export class MainService {
   updateUserInfo(body): Observable<any> {
     return this.httpClient.patch(this.serverUrl + '/User/UpdateUserInfo', body);
   }
+
+  getDailyCalories(UserId): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/User/GetRecommendedCalorieIntake?userId=' + UserId
+    );
+  }
+
+  getUserInfo(UserId): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/User/GetUserInfo?idUser=' + UserId
+    );
+  }
+
+  getWaterConsumption(UserId): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/WaterConsumption/GetWaterConsumption/' + UserId
+    );
+  }
+
+  addWaterConsumption(body): Observable<any> {
+    return this.httpClient.post(
+      this.serverUrl + '/WaterConsumption/AddWaterConsumption',
+      body
+    );
+  }
+
+  updateWaterConsumption(body): Observable<any> {
+    return this.httpClient.patch(
+      this.serverUrl + '/WaterConsumption/UpdateWaterConsumption',
+      body
+    );
+  }
+
+  getWorkoutPlan(userId): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/WorkoutPlan/GetWorkoutPlan?idUser=' + userId
+    );
+  }
+
+  getExercices(): Observable<any> {
+    return this.httpClient.get(
+      this.serverUrl + '/Exercise/GetExercisesJoinMuscles'
+    );
+  }
 }

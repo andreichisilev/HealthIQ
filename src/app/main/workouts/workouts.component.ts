@@ -8,6 +8,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { Router } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CommonModule } from '@angular/common';
+import { MainService } from '../../../_core/services/main.service';
+import { Workout } from '../../../_core/models/Workout';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @Component({
   selector: 'app-workouts',
@@ -21,45 +26,47 @@ import { CommonModule } from '@angular/common';
     NzButtonModule,
     NzCardModule,
     CommonModule,
+    NzStepsModule,
+    NzDividerModule,
   ],
   templateUrl: './workouts.component.html',
   styleUrl: './workouts.component.scss',
 })
 export class WorkoutsComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private mainService: MainService) {}
 
-  workouts = [
-    {
-      name: 'Chest',
-      description: 'Chest workouts',
-      image:
-        'https://www.verywellfit.com/thmb/7oBc8X2U4jXyq3w6RcJkDlY0bJ0=/1500x1000/filters:fill(FFDB5D,1)/squats-58a6a2c15f9b58a3c9c3a5e3.jpg',
-    },
-    {
-      name: 'Legs',
-      description: 'Leg workouts',
-      image:
-        'https://www.verywellfit.com/thmb/0RQsLmQpV5w6lXJ4t5ZJ5e3Z8Y0=/1500x1000/filters:fill(FFDB5D,1)/lunge-58a6a2b95f9b58a3c9c3a4e0.jpg',
-    },
-    {
-      name: 'Back',
-      description: 'Back workouts',
-      image:
-        'https://www.verywellfit.com/thmb/8DZ4QrLzPcX4c3sY6j4k4dJQq4w=/1500x1000/filters:fill(FFDB5D,1)/pullup-58a6a2b95f9b58a3c9c3a4e2.jpg',
-    },
-    {
-      name: 'Shoulders',
-      description: 'Shoulder workouts',
-      image:
-        'https://www.verywellfit.com/thmb/8DZ4QrLzPcX4c3sY6j4k4dJQq4w=/1500x1000/filters:fill(FFDB5D,1)/pullup-58a6a2b95f9b58a3c9c3a4e2.jpg',
-    },
-    {
-      name: 'Arms',
-      description: 'Arm workouts',
-      image:
-        'https://www.verywellfit.com/thmb/8DZ4QrLzPcX4c3sY6j4k4dJQq4w=/1500x1000/filters:fill(FFDB5D,1)/pullup-58a6a2b95f9b58a3c9c3a4e2.jpg',
-    },
-  ];
+  workouts: Workout[] = [];
+  workoutSplits: String[][] = [];
+  index = 0;
+  disable = false;
+
+  ngOnInit(): void {
+    this.mainService
+      .getWorkoutPlan(parseInt(localStorage.getItem('UserId')))
+      .subscribe({
+        next: (response) => {
+          this.workouts = response;
+          for (let i = 0; i < this.workouts.length; i++) {
+            this.workoutSplits.push(
+              this.workouts[i].exercise_Details.split(';')
+            );
+          }
+          console.log(this.workoutSplits);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+
+  handleWorkout(workout) {
+    var workoutSplit = workout.split(';');
+    console.log(workoutSplit);
+  }
+
+  onIndexChange(index: number): void {
+    this.index = index;
+  }
 
   goToHome() {
     this.router.navigate(['/main/home']);

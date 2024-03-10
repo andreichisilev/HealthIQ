@@ -15,6 +15,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RecipeIngredient } from '../../../_core/models/RecipeIngredient';
 import { IngredientType } from '../../../_core/models/IngredientType';
+import { MainService } from '../../../_core/services/main.service';
 
 @Component({
   selector: 'app-userrecipes',
@@ -37,12 +38,21 @@ import { IngredientType } from '../../../_core/models/IngredientType';
 export class UserrecipesComponent {
   constructor(
     private router: Router,
-    private adminService: AdministratorService
+    private adminService: AdministratorService,
+    private mainService: MainService
   ) {}
+
   recipes: Recipe[] = [];
+  availableRecipes: Recipe[] = [];
   recipesIngredients: RecipeIngredient[] = [];
   listOfCurrentIngredients: RecipeIngredient[] = [];
   ingredientTypes: IngredientType[] = [];
+
+  user = {
+    firstName: '',
+    lastName: '',
+    points: 0,
+  };
 
   isVisible: boolean = false;
 
@@ -52,6 +62,7 @@ export class UserrecipesComponent {
     this.adminService.getRecipes().subscribe({
       next: (response) => {
         this.recipes = response;
+        this.availableRecipes = this.recipes;
       },
       error: (error) => {
         console.log(error);
@@ -70,7 +81,17 @@ export class UserrecipesComponent {
     this.adminService.getIngredientTypes().subscribe({
       next: (response) => {
         this.ingredientTypes = response;
-        console.log(this.ingredientTypes);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    this.mainService.getUserInfo(localStorage.getItem('UserId')).subscribe({
+      next: (response) => {
+        this.user.firstName = response[0].firstName;
+        this.user.lastName = response[0].lastName;
+        this.user.points = response[0].points;
       },
       error: (error) => {
         console.log(error);
@@ -95,12 +116,47 @@ export class UserrecipesComponent {
     this.isVisible = false;
   }
 
+  findRecipe(idRecipe) {
+    for (let i = 0; i < this.recipes.length; i++) {
+      if (this.recipes[i].idRecipe == idRecipe) return this.recipes[i];
+    }
+    return null;
+  }
+
+  recipeAlreadyAvailable(idRecipe) {
+    for (let i = 0; i < this.availableRecipes.length; i++) {
+      if (this.availableRecipes[i].idRecipe == idRecipe) return true;
+    }
+    return false;
+  }
+
   selectFilter(filterIndex) {
-    this.filterSelected = filterIndex;
+    if (filterIndex == this.filterSelected && filterIndex != -1) {
+      this.filterSelected = -1;
+      this.availableRecipes = this.recipes;
+    } else {
+      this.filterSelected = filterIndex;
+      this.availableRecipes = [];
+      for (let i = 0; i < this.recipesIngredients.length; i++) {
+        if (
+          this.recipesIngredients[i].ingredientType ===
+          this.ingredientTypes[this.filterSelected].ingredientType
+        ) {
+          if (!this.recipeAlreadyAvailable(this.recipesIngredients[i].idRecipe))
+            this.availableRecipes.push(
+              this.findRecipe(this.recipesIngredients[i].idRecipe)
+            );
+        }
+      }
+    }
   }
 
   goToHome() {
     this.router.navigate(['/main/home']);
+  }
+
+  goToMeals() {
+    this.router.navigate(['/main/recipes']);
   }
 
   goToWellness() {
