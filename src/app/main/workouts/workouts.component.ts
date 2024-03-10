@@ -36,7 +36,7 @@ export class WorkoutsComponent {
   constructor(private router: Router, private mainService: MainService) {}
 
   workouts: Workout[] = [];
-  workoutSplits: String[][] = [];
+  workoutSplits: String[] = [];
   index = 0;
   disable = false;
 
@@ -47,11 +47,15 @@ export class WorkoutsComponent {
         next: (response) => {
           this.workouts = response;
           for (let i = 0; i < this.workouts.length; i++) {
-            this.workoutSplits.push(
-              this.workouts[i].exercise_Details.split(';')
-            );
+            var splits = this.workouts[i].exercise_Details.split(';');
+
+            var aux = '';
+            for (let j = 0; j < splits.length; j++) {
+              aux += splits[j] + '\n';
+            }
+
+            this.workoutSplits.push(aux);
           }
-          console.log(this.workoutSplits);
         },
         error: (error) => {
           console.log(error);
@@ -61,7 +65,7 @@ export class WorkoutsComponent {
 
   handleWorkout(workout) {
     var workoutSplit = workout.split(';');
-    console.log(workoutSplit);
+    //console.log(workoutSplit);
   }
 
   onIndexChange(index: number): void {

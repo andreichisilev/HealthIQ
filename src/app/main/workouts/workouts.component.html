@@ -35,7 +35,6 @@
           <nz-step
             *ngFor="let workout of workouts; let i = index"
             nzTitle="Day {{ i + 1 }}"
-            nzDescription="{{ handleWorkout(workout.exercise_Details) }}"
           ></nz-step>
         </nz-steps>
         <nz-divider></nz-divider>
@@ -47,7 +46,8 @@
           <nz-step
             *ngFor="let workout of workouts; let i = index"
             nzTitle="Day {{ i + 1 }}"
-            nzDescription="This is a description."
+            nzDescription="{{ workoutSplits[i] }}"
+            style="white-space: pre-line"
           ></nz-step>
         </nz-steps>
       </div>
